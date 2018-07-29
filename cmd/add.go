@@ -59,7 +59,7 @@ var addCmd = &cobra.Command{
 
 		fmt.Printf("\n##########")
 		fmt.Printf("\n# SUCCES #")
-		fmt.Printf("\n##########")
+		fmt.Printf("\n##########\n")
 	},
 }
 
@@ -115,7 +115,10 @@ func checkError(err error) {
 func checkApacheInstlled() {
 	_, err := exec.Command("bash", "-c", "service --status-all | grep apache2").Output()
 	if err != nil {
-		log.Fatal("Apache isnt installed yet!\n\n * apt install apache2 -y\n")
+		fmt.Printf("Apache isnt installed yet!\n")
+		out, err := exec.Command("bash", "-c", "apt install apache2 -y").Output()
+		fmt.Printf(string(out))
+		checkError(err)
 	}
 	fmt.Printf("Apache is installed.\n")
 }
