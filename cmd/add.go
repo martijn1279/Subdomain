@@ -25,6 +25,7 @@ import (
 	"github.com/spf13/cobra"
 	"io/ioutil"
 	"log"
+	"net/url"
 	"os/exec"
 	"regexp"
 	"strings"
@@ -138,9 +139,8 @@ func validSubdomain(subdomain string) {
 }
 
 func validRedictURL(redictURL string) {
-	r, err := regexp.Compile("^(?:http(s)?:\\/\\/)?[\\w.-]+(?:\\.[\\w\\.-]+)+[\\w\\-\\._~:/?#[\\]@!\\$&'\\(\\)\\*\\+,;=.]+$")
-	checkError(err)
-	if !r.MatchString(redictURL) {
+	_, err := url.ParseRequestURI(redictURL)
+	if err != nil {
 		log.Fatal("'" + redictURL + "' isnt a valid redictURL\n")
 	}
 	fmt.Printf("'" + redictURL + "' is a valid redictURL\n")
